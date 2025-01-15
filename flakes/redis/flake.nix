@@ -17,7 +17,7 @@
         };
       in {
         devShell = pkgs.mkShell {
-          # Specify the Python version and tools
+          # Specify tools you want to use
           buildInputs = [
             pkgs.redis
           ];
