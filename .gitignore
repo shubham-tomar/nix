@@ -1,2 +1,3 @@
 
 flakes/*/flake.lock
+flakes/redis/dump.rdb
