@@ -34,8 +34,8 @@
           };
         };
 
-        packages = {
-          redis = pkgs.redis;
-        };
+        # packages = {
+        #   redis = pkgs.redis;
+        # };
       });
 }
