@@ -1,0 +1,26 @@
+
+rest.address: localhost
+rest.port: 8081
+jobmanager.rpc.address: localhost
+
+
+# TaskManager Memory Settings
+taskmanager.memory.process.size: 2300m
+taskmanager.memory.flink.size: 2048m
+taskmanager.memory.managed.size: 512m
+taskmanager.memory.task.heap.size: 1024m
+taskmanager.memory.jvm-metaspace.size: 128m
+taskmanager.memory.jvm-overhead.min: 120m
+taskmanager.memory.jvm-overhead.max: 256m
+
+# JobManager Memory Settings
+jobmanager.memory.process.size: 1024m
+jobmanager.memory.heap.size: 512m
+jobmanager.memory.off-heap.size: 256m
+jobmanager.memory.jvm-metaspace.size: 128m
+jobmanager.memory.jvm-overhead.min: 128m
+jobmanager.memory.jvm-overhead.max: 256m
+
+env.log.dir: ~/flink-logs
+env.java.home: /nix/store/x7rwnkx3p0m4dsd5w13nznddvs5x7v0z-zulu-ca-jdk-11.0.24/zulu-11.jdk
+env.log4j.configuration-file: /Users/shubhamtomar/pixis-projects/aalearning/nix/flakes/kafka/conf/log4j.properties

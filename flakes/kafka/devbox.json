@@ -1,0 +1,58 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "packages": [
+    "apacheKafka@latest",
+    "flink@1.19.0",
+    "jdk@11"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo \"Init hook.......\"",
+      "export LOG_DIR=~/flink-logs",
+      "mkdir -p $LOG_DIR",
+      "export FLINK_LOG_DIR=$LOG_DIR",
+      "export FLINK_CONF_DIR=~/Downloads/flink-1.20.0/conf",
+      "export FLINK_HOME=/nix/store/qjligk5jpr2hzzpfsarh8l6fjq74bh7j-flink-1.19.0/opt/flink",
+      "export PATH=$FLINK_HOME/bin:$PATH",
+      "echo 'Flink environment initialized. FLINK_HOME set to' $FLINK_HOME"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ],
+      "kafka-init": "export KAFKA_CLUSTER_ID=\"$(kafka-storage.sh random-uuid)\" && echo \"Generated Kafka Cluster ID: $KAFKA_CLUSTER_ID\" && kafka-storage.sh format --cluster-id $KAFKA_CLUSTER_ID --config ~/kafka-config/server.properties",
+      "kafka-start": "kafka-server-start.sh ~/kafka-config/server.properties",
+      "kafka-stop": "kafka-server-stop.sh",
+      "start-flink": [
+        "echo 'Starting Flink cluster...'",
+        "start-cluster.sh",
+        "echo 'Flink cluster started at: http://localhost:8081'"
+      ],
+      "dummy-producer": [
+        "chmod +x ./produce-dummy.sh",
+        "./produce-dummy.sh"
+      ],
+      "stop-dummy-producer": [
+        "pkill -f produce-dummy.sh"
+      ],
+      "stop-flink": [
+        "echo 'Stopping Flink cluster...'",
+        "stop-cluster.sh",
+        "echo 'Flink cluster stopped.'"
+      ],
+      "flink-ui": [
+        "echo 'Opening Flink Web UI...'",
+        "xdg-open http://localhost:8081 || open http://localhost:8081"
+      ],
+      "flink-submit": [
+        "read -p 'Enter the JAR file path: ' jar_file",
+        "read -p 'Enter the main class (if needed, else press Enter): ' main_class",
+        "if [[ -n \"$main_class\" ]]; then",
+        "  flink run -c \"$main_class\" \"$jar_file\"",
+        "else",
+        "  flink run \"$jar_file\"",
+        "fi"
+      ]
+    }
+  }
+}

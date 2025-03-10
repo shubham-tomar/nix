@@ -1,0 +1,132 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "apacheKafka@latest": {
+      "last_modified": "2025-02-20T02:45:56Z",
+      "resolved": "github:NixOS/nixpkgs/dad564433178067be1fbdfcce23b546254b6d641#apacheKafka_3_9",
+      "source": "devbox-search",
+      "version": "2.13-3.9.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/87ydrp7sxi9f4rz9zyv2g7nzi7vsn28a-apache-kafka-2.13-3.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/87ydrp7sxi9f4rz9zyv2g7nzi7vsn28a-apache-kafka-2.13-3.9.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/k086fi5fr1b1l29m319waqyywxgf6i7y-apache-kafka-2.13-3.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/k086fi5fr1b1l29m319waqyywxgf6i7y-apache-kafka-2.13-3.9.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vxbr26vfrmy662vfcqqqhhkq47hr2aih-apache-kafka-2.13-3.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/vxbr26vfrmy662vfcqqqhhkq47hr2aih-apache-kafka-2.13-3.9.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/77vyx449hzw10xj9597nar0ixc59dqzm-apache-kafka-2.13-3.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/77vyx449hzw10xj9597nar0ixc59dqzm-apache-kafka-2.13-3.9.0"
+        }
+      }
+    },
+    "flink@1.19.0": {
+      "last_modified": "2024-06-12T20:55:33Z",
+      "resolved": "github:NixOS/nixpkgs/a9858885e197f984d92d7fe64e9fff6b2e488d40#flink",
+      "source": "devbox-search",
+      "version": "1.19.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qjligk5jpr2hzzpfsarh8l6fjq74bh7j-flink-1.19.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qjligk5jpr2hzzpfsarh8l6fjq74bh7j-flink-1.19.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/7913mjv1y3d7zkxbycwfmxz8cf83kml6-flink-1.19.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/7913mjv1y3d7zkxbycwfmxz8cf83kml6-flink-1.19.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/yv9nxry6lp6hn38vxpnxdc652ihgjda4-flink-1.19.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/yv9nxry6lp6hn38vxpnxdc652ihgjda4-flink-1.19.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/f4vqg0q0xkfc0vr8b2h4jjki6vrsi8w5-flink-1.19.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/f4vqg0q0xkfc0vr8b2h4jjki6vrsi8w5-flink-1.19.0"
+        }
+      }
+    },
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "resolved": "github:NixOS/nixpkgs/3a05eebede89661660945da1f151959900903b6a?lastModified=1740547748&narHash=sha256-Ly2fBL1LscV%2BKyCqPRufUBuiw%2BzmWrlJzpWOWbahplg%3D"
+    },
+    "jdk@11": {
+      "last_modified": "2025-02-07T11:26:36Z",
+      "resolved": "github:NixOS/nixpkgs/d98abf5cf5914e5e4e9d57205e3af55ca90ffc1d#jdk11",
+      "source": "devbox-search",
+      "version": "11.0.24",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/x7rwnkx3p0m4dsd5w13nznddvs5x7v0z-zulu-ca-jdk-11.0.24",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/x7rwnkx3p0m4dsd5w13nznddvs5x7v0z-zulu-ca-jdk-11.0.24"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/k7shrylxxlhn1l0wcs8x9l9wkw166mhj-zulu-ca-jdk-11.0.24",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/k7shrylxxlhn1l0wcs8x9l9wkw166mhj-zulu-ca-jdk-11.0.24"
+        }
+      }
+    }
+  }
+}
