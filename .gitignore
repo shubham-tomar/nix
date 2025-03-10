@@ -5,7 +5,6 @@ flake.lock
 
 # Build directories - ensure we exclude all target directories and their contents
 **/target/
-# Explicitly ignore the large JAR files that caused issues
 flakes/kafka/kafka-flink-job-b/target/
 flakes/kafka/kafka-flink-job/target/
 **/target/*.jar
