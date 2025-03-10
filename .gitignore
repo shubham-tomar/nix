@@ -1,3 +1,5 @@
 
 flakes/*/flake.lock
 flakes/redis/dump.rdb
+flakes/kafka/*/target
+flakes/*/.venv
