@@ -1,6 +1,28 @@
 
-flakes/*/flake.lock
-flakes/redis/dump.rdb
-flakes/kafka/*/target/
-flakes/*/.venv
+# Nix lock files
+**/flake.lock
 flake.lock
+
+# Build directories
+**/target/
+
+# Redis dump files
+flakes/redis/dump.rdb
+
+# Virtual environments
+flakes/*/.venv
+**/.venv/
+
+# Maven lock files
+**/.mvn/wrapper/maven-wrapper.jar
+**/.mvn/wrapper/maven-wrapper.properties
+**/pom.xml.versionsBackup
+**/pom.xml.releaseBackup
+**/release.properties
+**/dependency-reduced-pom.xml
+
+# Gradle lock files
+**/.gradle/
+**/build/
+**/gradle-app.setting
+**/.gradletasknamecache
