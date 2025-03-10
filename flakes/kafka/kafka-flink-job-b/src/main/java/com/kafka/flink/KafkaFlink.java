@@ -6,16 +6,11 @@ import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.catalog.Catalog;
-import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.data.RowData;
 import org.apache.iceberg.DistributionMode;
 import org.apache.iceberg.catalog.TableIdentifier;
 import org.apache.iceberg.flink.CatalogLoader;
 import org.apache.iceberg.flink.TableLoader;
-import org.apache.iceberg.flink.FlinkCatalog;
 import org.apache.iceberg.flink.sink.FlinkSink;
 import java.util.Map;
 import java.util.HashMap;
@@ -26,8 +21,6 @@ public class KafkaFlink {
     public static void main(String[] args) throws Exception {
 
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env,
-                EnvironmentSettings.newInstance().inStreamingMode().build());
 
         env.enableCheckpointing(120000);
         String branchName = "dummy";
@@ -35,7 +28,6 @@ public class KafkaFlink {
         Utils.ListNessieBranches();
         Utils.CreateBranch("main", branchName);
 
-        // Kafka Source
         KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
                 .setBootstrapServers("localhost:9092")
                 .setTopics("dummy-src")
@@ -56,7 +48,6 @@ public class KafkaFlink {
         TableLoader tableLoader = TableLoader.fromCatalog(getCatalogLoader(), tableIdentifier);
         tableLoader.open();
 
-        // Writing Kafka data to Iceberg Table
         FlinkSink.forRowData(rowDataStream)
                 .tableLoader(tableLoader)
                 .toBranch("dummy_2")
@@ -65,36 +56,28 @@ public class KafkaFlink {
                 .upsert(false)
                 .append();
 
-        // Register Nessie Catalog in Flink
-        Catalog flinkCatalog = new FlinkCatalog("nessie", getCatalogLoader());
-        tableEnv.registerCatalog("nessie", flinkCatalog);
-        tableEnv.useCatalog("nessie");
-
-        // List all tables to verify connection
-        tableEnv.executeSql("SHOW TABLES").print();
-
-        // Read from Iceberg table
-        Table icebergTable = tableEnv.sqlQuery("SELECT * FROM nessie.flink." + tableName);
-        tableEnv.toDataStream(icebergTable).print();
-
         env.execute("Kafka to Iceberg Streaming Job");
 
+        // Utils.MergeBranches(branchName, "main");
+        // Utils.DeleteBranch(branchName);
         Utils.ListNessieBranches();
     }
+
 
     public static CatalogLoader getCatalogLoader() {
         Map<String, String> props = new HashMap<>();
         props.put("uri", "http://localhost:19120/api/v1");
         props.put("ref", "dummy_2");
-        
-        // Ensure correct S3 bucket path
-        props.put("warehouse", "s3a://my-s3-bucket/warehouse"); // ✅ FIXED BUCKET NAME
+        props.put("warehouse", "s3a://warehouse/");
         props.put("s3.endpoint", "http://localhost:9000");
         props.put("s3.region", "us-east-1");
         props.put("s3.access-key", "admin");
         props.put("s3.secret-key", "password");
         props.put("s3.path-style-access", "true");
         props.put("io-impl", "org.apache.iceberg.aws.s3.S3FileIO");
+        // props.put("rest.flamegraph.enabled", "true");
+        // props.put("s3.use-arn-region-enabled", "true");
+        // props.put("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
         props.put("write.format.default", "parquet");
 
         org.apache.hadoop.conf.Configuration hadoopConf = new org.apache.hadoop.conf.Configuration();
