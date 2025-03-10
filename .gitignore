@@ -3,8 +3,12 @@
 **/flake.lock
 flake.lock
 
-# Build directories
+# Build directories - ensure we exclude all target directories and their contents
 **/target/
+# Explicitly ignore the large JAR files that caused issues
+flakes/kafka/kafka-flink-job-b/target/
+flakes/kafka/kafka-flink-job/target/
+**/target/*.jar
 
 # Redis dump files
 flakes/redis/dump.rdb
@@ -12,6 +16,8 @@ flakes/redis/dump.rdb
 # Virtual environments
 flakes/*/.venv
 **/.venv/
+**/.venv/lib/python*/site-packages/pyspark/jars/
+**/.venv/lib/python*/site-packages/**/*.jar
 
 # Maven lock files
 **/.mvn/wrapper/maven-wrapper.jar
