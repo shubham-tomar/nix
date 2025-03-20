@@ -12,12 +12,9 @@ import org.apache.iceberg.catalog.TableIdentifier;
 import org.apache.iceberg.flink.CatalogLoader;
 import org.apache.iceberg.flink.TableLoader;
 import org.apache.iceberg.flink.sink.FlinkSink;
-import org.apache.hadoop.conf.Configuration;
-
-import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.catalog.Catalog;
+import java.util.HashMap;
+import com.kafka.flink.utils.Utils;
 
 public class KafkaFlink {
 
@@ -25,46 +22,51 @@ public class KafkaFlink {
 
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        env.enableCheckpointing(120000);
-
+        env.enableCheckpointing(60000);
+        // String branchName = "dummy";
 
         KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
                 .setBootstrapServers("localhost:9092")
                 .setTopics("dummy-src")
                 .setGroupId("flink-consumer-group")
-                .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new SimpleStringSchema())
+                .setBounded(OffsetsInitializer.latest())
+                .setProperty("auto.offset.reset", "earliest")
                 .build();
 
         DataStream<String> kafkaStream = env.fromSource(kafkaSource, WatermarkStrategy.noWatermarks(), "Kafka Source");
 
         DataStream<RowData> rowDataStream = kafkaStream.map(new KafkaJsonToRowDataMapper());
 
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Table name must be provided as an argument");
+        if (args.length < 2) {
+            throw new IllegalArgumentException("Table name and branch name must be provided as arguments");
         }
         String tableName = args[0];
+        String branchName = args[1];
         TableIdentifier tableIdentifier = TableIdentifier.of("flink", tableName);
         TableLoader tableLoader = TableLoader.fromCatalog(getCatalogLoader(), tableIdentifier);
         tableLoader.open();
 
-        kafkaStream.print();
+        Utils.ListNessieBranches();
+        Utils.CreateBranch("main", branchName);
 
         FlinkSink.forRowData(rowDataStream)
                 .tableLoader(tableLoader)
-                .toBranch("main")
                 .distributionMode(DistributionMode.HASH)
                 .writeParallelism(1)
                 .upsert(false)
                 .append();
 
         env.execute("Kafka to Iceberg Streaming Job");
-    }
 
+        Utils.MergeBranches(branchName, "main");
+        Utils.DeleteBranch(branchName);
+        Utils.ListNessieBranches();
+    }
 
     public static CatalogLoader getCatalogLoader() {
         Map<String, String> props = new HashMap<>();
-        props.put("uri", "http://localhost:19120/api/v1");
+        props.put("uri", "http://localhost:19120/api/v2");
         props.put("ref", "main");
         props.put("warehouse", "s3a://warehouse/");
         props.put("s3.endpoint", "http://localhost:9000");
@@ -90,4 +92,5 @@ public class KafkaFlink {
                 props,
                 hadoopConf, "org.apache.iceberg.nessie.NessieCatalog");
     }
+
 }

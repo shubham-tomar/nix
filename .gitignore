@@ -15,8 +15,11 @@ flakes/redis/dump.rdb
 # Virtual environments
 flakes/*/.venv
 **/.venv/
-**/.venv/lib/python*/site-packages/pyspark/jars/
-**/.venv/lib/python*/site-packages/**/*.jar
+**/.venv/lib/python*/site-packages/*
+**/metastore_db
+**/derby.log
+
+
 
 # Maven lock files
 **/.mvn/wrapper/maven-wrapper.jar
@@ -31,3 +34,7 @@ flakes/*/.venv
 **/build/
 **/gradle-app.setting
 **/.gradletasknamecache
+
+# VSCode
+**/.vscode
+

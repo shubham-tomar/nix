@@ -60,7 +60,7 @@
         <groupId>org.apache.flink</groupId>
         <artifactId>flink-table-planner_2.12</artifactId>
         <version>1.20.0</version>
-        <scope>provided</scope>
+        <!-- Removed 'provided' scope to include in the final JAR -->
     </dependency>
     <dependency>
         <groupId>org.apache.flink</groupId>
@@ -87,7 +87,6 @@
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-client</artifactId>
         <version>3.4.1</version>
-        <scope>provided</scope>
     </dependency>
 
     <dependency>
