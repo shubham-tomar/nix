@@ -30,7 +30,6 @@ flakes/*/.venv
 **/dependency-reduced-pom.xml
 
 # Gradle lock files
-
 **/.gradle/
 **/build/
 **/gradle-app.setting
